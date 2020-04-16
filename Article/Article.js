@@ -93,22 +93,70 @@ const data = [
   <div class="article">
     <h2>{title of the article}</h2>
     <p class="date">{date of the article}</p>
-
     {three separate paragraph elements}
-
     <span class='expandButton'></span>
   </div>
-
   Hint: You will need to use createElement more than once here!
-
   Your function should take either an object as it's one argument, or 5 separate arguments mapping to each piece of the data object above.
-
   Step 2: Add an event listener to the expandButton span. This event listener should toggle the class 'article-open' on the 'article' div.
-
   Step 3: return the entire component.
-
   Step 4: Map over the data, creating a component for each oject and add each component to the DOM as children of the 'articles' div.
-
   Step 5: Add a new article to the array. Make sure it is in the same format as the others. Refresh the page to see the new article.
-
 */
+const createArticle = (article)=>{
+  const articleDiv = document.createElement('div')
+  const articleH2 = document.createElement('h2')
+  const articleDate = document.createElement('p')
+  const articleP1 = document.createElement('p')
+  const articleP2 = document.createElement('p')
+  const articleP3 = document.createElement('p')
+  const articleSpanOpen = document.createElement('span')
+  const articleSpanClose = document.createElement('span')
+
+  articleDiv.appendChild(articleH2)
+  articleDiv.appendChild(articleDate)
+  articleDiv.appendChild(articleP1)
+  articleDiv.appendChild(articleP2)
+  articleDiv.appendChild(articleP3)
+  articleDiv.appendChild(articleSpanOpen)
+  articleDiv.appendChild(articleSpanClose)
+
+  articleDiv.classList.add('article')
+  articleDate.classList.add('date')
+  articleSpanOpen.classList.add('expandButton')
+  articleSpanClose.classList.add('expandButton', 'hide-btn')
+
+
+  articleH2.textContent = article.title
+  articleDate.textContent = article.date
+  console.log(article.firstParagraph)
+  articleP1.textContent = article.firstParagraph
+  articleP2.textContent = article.secondParagraph
+  articleP3.textContent = article.thirdParagraph
+
+  const open = '\u25bc' // unicode triangle
+  articleSpanOpen.textContent = open
+
+  const close = '\u25b2'
+  articleSpanClose.textContent = close
+  
+  articleSpanOpen.addEventListener('click', ()=>{
+    articleDiv.classList.toggle('article-open')
+    articleSpanOpen.classList.toggle('hide-btn')
+    articleSpanClose.classList.toggle('hide-btn')
+  })
+
+  articleSpanClose.addEventListener('click', ()=>{
+    articleDiv.classList.toggle('article-open')
+    articleSpanOpen.classList.toggle('hide-btn')
+    articleSpanClose.classList.toggle('hide-btn')
+  })
+
+  return articleDiv
+}
+
+const articlesDiv = document.querySelector('.articles')
+
+data.forEach(articleData => {
+  articlesDiv.appendChild(createArticle(articleData))
+})
