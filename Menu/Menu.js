@@ -26,34 +26,26 @@ let menuItems = [
   
 */
 
-const header = document.querySelector('.header');
- const menuButton = document.querySelector('.menu-button');
+const createMenu = (menu)=>{
+  const menuDiv = document.createElement('div')
+  const menuUL = document.createElement('ul')
 
- function menuFactory(items) {
+  menuDiv.appendChild(menuUL)
+  menu.forEach(element => {
+    const menuLI = document.createElement('li')
+    menuUL.appendChild(menuLI)
+    menuLI.textContent = element
+  });
 
-   
-   const menu = document.createElement('div');
-   const ul = document.createElement('ul');
+  menuDiv.classList.add('menu')
 
-   
-  menu.appendChild(ul);
+  const menuButton = document.querySelector('.menu-button')
+  menuButton.addEventListener('click', ()=>{
+    menuDiv.classList.toggle('menu--open')
+  })
 
-   
-   menuItems.forEach((i) => {
-     const li = document.createElement('li');
-     li.textContent = i; 
-     ul.appendChild(li);
-   })
+  return menuDiv
+}
 
-  
-   menu.classList.add('menu');
-
- 
-   menuButton.addEventListener('click', (e) => {
-     menu.classList.toggle('menu--open');
-   })    
-
-   return menu;
- }
-
- header.appendChild(menuFactory(menuItems));
+const header = document.querySelector('.header')
+header.appendChild(createMenu(menuItems))

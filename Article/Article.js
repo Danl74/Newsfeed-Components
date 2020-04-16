@@ -103,50 +103,60 @@ const data = [
   Step 4: Map over the data, creating a component for each oject and add each component to the DOM as children of the 'articles' div.
   Step 5: Add a new article to the array. Make sure it is in the same format as the others. Refresh the page to see the new article.
 */
-const articles = document.querySelector('.articles');
+const createArticle = (article)=>{
+  const articleDiv = document.createElement('div')
+  const articleH2 = document.createElement('h2')
+  const articleDate = document.createElement('p')
+  const articleP1 = document.createElement('p')
+  const articleP2 = document.createElement('p')
+  const articleP3 = document.createElement('p')
+  const articleSpanOpen = document.createElement('span')
+  const articleSpanClose = document.createElement('span')
 
- function makeArticles(articleData) {
+  articleDiv.appendChild(articleH2)
+  articleDiv.appendChild(articleDate)
+  articleDiv.appendChild(articleP1)
+  articleDiv.appendChild(articleP2)
+  articleDiv.appendChild(articleP3)
+  articleDiv.appendChild(articleSpanOpen)
+  articleDiv.appendChild(articleSpanClose)
+
+  articleDiv.classList.add('article')
+  articleDate.classList.add('date')
+  articleSpanOpen.classList.add('expandButton')
+  articleSpanClose.classList.add('expandButton', 'hide-btn')
+
+
+  articleH2.textContent = article.title
+  articleDate.textContent = article.date
+  console.log(article.firstParagraph)
+  articleP1.textContent = article.firstParagraph
+  articleP2.textContent = article.secondParagraph
+  articleP3.textContent = article.thirdParagraph
+
+  const open = '\u25bc' // unicode triangle
+  articleSpanOpen.textContent = open
+
+  const close = '\u25b2'
+  articleSpanClose.textContent = close
   
-   const article = document.createElement('div');
-   const articleTitle = document.createElement('h2');
-   const articleDate = document.createElement('p');
-   const para1 = document.createElement('p');
-   const para2 = document.createElement('p');
-   const para3 = document.createElement('p');
-   const expandButton = document.createElement('span');
+  articleSpanOpen.addEventListener('click', ()=>{
+    articleDiv.classList.toggle('article-open')
+    articleSpanOpen.classList.toggle('hide-btn')
+    articleSpanClose.classList.toggle('hide-btn')
+  })
 
-  
-   article.appendChild(articleTitle);
-   article.appendChild(articleDate);
-   article.appendChild(para1);
-   article.appendChild(para2);
-   article.appendChild(para3);
-   article.appendChild(expandButton);
+  articleSpanClose.addEventListener('click', ()=>{
+    articleDiv.classList.toggle('article-open')
+    articleSpanOpen.classList.toggle('hide-btn')
+    articleSpanClose.classList.toggle('hide-btn')
+  })
 
-  
-   articleTitle.textContent = articleData.title;
-   articleDate.textContent = articleData.date;
-   para1.textContent = articleData.firstParagraph;
-   para2.textContent = articleData.secondParagraph;
-   para3.textContent = articleData.thirdParagraph;
-   expandButton.textContent = '	\u25C9	';
+  return articleDiv
+}
 
-  
-   article.classList.add('article');
-   articleDate.classList.add('date');
-   expandButton.classList.add('expandButton');
+const articlesDiv = document.querySelector('.articles')
 
-   
-   expandButton.addEventListener('click', (e) => {
-     article.classList.toggle('article-open');
-   })
-
-   return article;
- }
-
-
-
-
- 	data.forEach(datam => {
-   articles.appendChild(makeArticles(datam));
- }) 
+data.forEach(articleData => {
+  articlesDiv.appendChild(createArticle(articleData))
+})
